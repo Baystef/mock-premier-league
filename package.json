@@ -1,0 +1,53 @@
+{
+  "name": "mock-pl",
+  "version": "1.0.0",
+  "description": "API that serves the latest fixture scores of a Mock Premier League",
+  "main": "server/index.js",
+  "scripts": {
+    "start:dev": "set DEBUG=dev && cross-env NODE_ENV=development babel-watch ./server/index.js",
+    "start": "set DEBUG=dev && node ./server/index.js",
+    "build": "babel server --out-dir build",
+    "seed": "set DEBUG=dev && babel-node ./server/src/schema/seed",
+    "heroku:seed": "node ./build/src/schema/seed",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Baystef/mock-premier-league.git"
+  },
+  "keywords": [
+    "express",
+    "node",
+    "MongoDB",
+    "Redis"
+  ],
+  "author": "Adebayo Daramola",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Baystef/mock-premier-league/issues"
+  },
+  "homepage": "https://github.com/Baystef/mock-premier-league#readme",
+  "dependencies": {
+    "@babel/polyfill": "^7.4.4",
+    "bcrypt": "^3.0.6",
+    "cross-env": "^5.2.0",
+    "debug": "^4.1.1",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.24.0",
+    "mongoose": "^5.6.9",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/node": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "babel-watch": "^7.0.0",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2"
+  }
+}
