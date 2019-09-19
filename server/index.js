@@ -8,7 +8,6 @@ import { log } from './src/utils';
 const app = express();
 config();
 
-
 const env = process.env.NODE_ENV;
 
 mongoose.set('useCreateIndex', true);
