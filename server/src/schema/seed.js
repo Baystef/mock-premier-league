@@ -14,8 +14,8 @@ if (env === 'test') {
     .catch((err) => log(err.message));
 } else {
   mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
-    .then(() => log('Connected to MongoDB...'))
-    .catch((err) => log(err.message));
+    .then(() => console.log('Connected to MongoDB...'))
+    .catch((err) => console.log(err.message));
 }
 
 
@@ -33,9 +33,11 @@ const seed = async () => {
     await populate(User, users);
     await populate(Team, teams);
     await populate(Fixture, fixtures);
-    log('Database seeded!');
+    // eslint-disable-next-line no-unused-expressions
+    env === 'test' ? log('Database seeded!') : console.log('Database seeded!');
   } catch (error) {
-    log(error.message);
+    // eslint-disable-next-line no-unused-expressions
+    env === 'test' ? log(error.message) : console.log(error.message);
   }
 };
 

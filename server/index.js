@@ -19,8 +19,8 @@ if (env === 'test') {
     .catch((err) => log(err.message));
 } else {
   mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
-    .then(() => log('Connected to MongoDB...'))
-    .catch((err) => log(err.message));
+    .then(() => console.log('Connected to MongoDB...'))
+    .catch((err) => console.log(err.message));
 }
 
 app.use(morgan('dev'));
