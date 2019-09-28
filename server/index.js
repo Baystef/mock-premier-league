@@ -8,7 +8,9 @@ import routes from './src/routes';
 
 config();
 
-const redisHost = process.env.REDIS_URI;
+const env = process.env.NODE_ENV;
+
+const redisHost = env === 'test' ? 'localhost' : 'SG-Bizzle-26157.servers.mongodirector.com:6379' || process.env.REDIS_URI;
 
 const app = express();
 const redis = new Redis();
@@ -28,7 +30,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: { secure: false },
-  store: new redisStore({ host: redisHost, port: 6379, client: redis, ttl: 86400 }),
+  store: new redisStore({ host: 'SG-Bizzle-26157.servers.mongodirector.com:6379', port: 6379, client: redis, ttl: 86400 }),
 }));
 
 app.use('/api/v1', routes);
