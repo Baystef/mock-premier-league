@@ -5,9 +5,14 @@ import { config } from 'dotenv';
 config();
 const sCrypt = process.env.SECRET;
 
+/**
+ * @description Authorization helper class
+ * @exports Auth
+ */
 class Auth {
   /**
    * @param {string} password password string to be hashed
+   * @returns {string} hashed password;
    */
   static hash(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8));
@@ -16,6 +21,7 @@ class Auth {
   /**
    * @param {string} password provided password
    * @param {string} hash hashed password in database
+   * @returns {boolean} true or false
    */
   static compare(password, hash) {
     return bcrypt.compareSync(password, hash);

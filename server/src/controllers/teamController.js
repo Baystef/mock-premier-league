@@ -1,7 +1,6 @@
-import '@babel/polyfill';
 import { Team } from '../models';
 import {
-  conflictResponse, internalErrREesponse, successResponse, nullResponse,
+  conflictResponse, internalErrResponse, successResponse, nullResponse,
 } from '../utils/response';
 import { getByTeamName, getByCoach } from '../utils';
 
@@ -33,7 +32,7 @@ class teamController {
       team = await team.save();
       return successResponse(res, 201, team);
     } catch (error) {
-      return internalErrREesponse(res);
+      return internalErrResponse(res);
     }
   }
 
@@ -66,7 +65,7 @@ class teamController {
         }
       }
     } catch (error) {
-      return internalErrREesponse(res);
+      return internalErrResponse(res);
     }
   }
 
@@ -86,7 +85,7 @@ class teamController {
       }
       return successResponse(res, 200, data);
     } catch (error) {
-      return internalErrREesponse(res);
+      return internalErrResponse(res);
     }
   }
 
@@ -107,7 +106,7 @@ class teamController {
       const message = `${teamName} has been deleted successfully`;
       return successResponse(res, 200, { message });
     } catch (error) {
-      return internalErrREesponse(res);
+      return internalErrResponse(res);
     }
   }
 }

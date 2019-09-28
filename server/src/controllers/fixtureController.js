@@ -1,10 +1,8 @@
-import '@babel/polyfill';
 import moment from 'moment';
 import { Fixture } from '../models';
 import {
-  conflictResponse, internalErrREesponse, successResponse, nullResponse, badRequestResponse,
+  conflictResponse, internalErrResponse, successResponse, nullResponse, badRequestResponse,
 } from '../utils/response';
-import { log } from '../utils';
 
 /**
  * @description Houses the methods for the teams endpoint
@@ -27,7 +25,6 @@ class fixtureController {
 
     try {
       const exists = await Fixture.find({ homeTeam, awayTeam });
-      log(exists);
       if (exists[0]) {
         const msg = 'Fixture already exists';
         return conflictResponse(res, msg);
@@ -38,7 +35,7 @@ class fixtureController {
       fixture = await fixture.save();
       return successResponse(res, 201, fixture);
     } catch (error) {
-      return internalErrREesponse(res);
+      return internalErrResponse(res);
     }
   }
 
@@ -80,7 +77,7 @@ class fixtureController {
         }
       }
     } catch (error) {
-      return internalErrREesponse(res);
+      return internalErrResponse(res);
     }
   }
 
@@ -100,7 +97,7 @@ class fixtureController {
       }
       return successResponse(res, 200, fixture);
     } catch (error) {
-      return internalErrREesponse(res);
+      return internalErrResponse(res);
     }
   }
 
@@ -121,7 +118,7 @@ class fixtureController {
       }
       return successResponse(res, 200, fixture);
     } catch (error) {
-      return internalErrREesponse(res);
+      return internalErrResponse(res);
     }
   }
 
@@ -142,7 +139,29 @@ class fixtureController {
       const message = 'Fixture has been deleted successfully';
       return successResponse(res, 200, { message });
     } catch (error) {
-      return internalErrREesponse(res);
+      return internalErrResponse(res);
+    }
+  }
+
+  /**
+   * @description Robustly search for a fixture or team
+   * @param {object} req request object
+   * @param {object} res response object
+   * @returns {object}  JSON response
+   */
+  static async search(req, res) {
+    const { term } = req.query;
+    try {
+      const searched = await Fixture.find({
+        $text: { $search: term }
+      });
+      if (!searched[0]) {
+        const msg = `No result found for ${term}`;
+        return nullResponse(res, msg);
+      }
+      return successResponse(res, 200, searched);
+    } catch (error) {
+      return internalErrResponse(res, error.message);
     }
   }
 }

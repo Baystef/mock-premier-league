@@ -20,8 +20,7 @@ class Authorization {
    */
   static verifyAdmin(req, res, next) {
     try {
-      const token = req.get('Authorization').replace('Bearer ', '');
-      if (!token) return unauthorizedResponse(res, 'No token provided');
+      const token = req.session.key.token || req.get('Authorization').replace('Bearer ', '');
       const decoded = verifyToken(token);
       const { isAdmin } = decoded;
       if (!isAdmin) {
@@ -34,7 +33,7 @@ class Authorization {
   }
 
   /**
-   * @description Verifies if user is signed in and has a valid token
+   * @description Verifies if user has a valid token
    * to access user resources
    * @param {object} req request object
    * @param {object} res response object
@@ -43,8 +42,7 @@ class Authorization {
    */
   static verifyUser(req, res, next) {
     try {
-      const token = req.get('Authorization').replace('Bearer ', '');
-      if (!token) return unauthorizedResponse(res, 'No token provided');
+      const token = req.session.key.token || req.get('Authorization').replace('Bearer ', '');
       const decoded = verifyToken(token);
       req.user = decoded;
       if (!req.user._id) {

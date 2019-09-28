@@ -1,0 +1,3 @@
+import { unseed } from '.';
+
+unseed();

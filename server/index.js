@@ -1,30 +1,35 @@
-import mongoose from 'mongoose';
 import express from 'express';
+import session from 'express-session';
+import Redis from 'ioredis';
+import connectRedis from 'connect-redis';
 import { config } from 'dotenv';
 import morgan from 'morgan';
 import routes from './src/routes';
-import { log } from './src/utils';
 
-const app = express();
 config();
 
-const env = process.env.NODE_ENV;
+const redisHost = process.env.REDIS_URI;
 
-mongoose.set('useCreateIndex', true);
-mongoose.set('useFindAndModify', false);
-
-if (env === 'test') {
-  mongoose.connect(process.env.MONGODB_URI_TEST, { useNewUrlParser: true })
-    .then(() => log('Connected to MongoDB...'))
-    .catch((err) => log(err.message));
-} else {
-  mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
-    .then(() => console.log('Connected to MongoDB...'))
-    .catch((err) => console.log(err.message));
-}
+const app = express();
+const redis = new Redis();
+const redisStore = connectRedis(session);
 
 app.use(morgan('dev'));
 app.use(express.json());
+
+
+redis.on('error', (err) => {
+  console.log('Redis Error:', err);
+});
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  name: '_redisSession',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false },
+  store: new redisStore({ host: redisHost, port: 6379, client: redis, ttl: 86400 }),
+}));
 
 app.use('/api/v1', routes);
 
@@ -50,8 +55,5 @@ app.use((err, req, res, next) => {
   });
 });
 
-const port = process.env.PORT || 4600;
-
-app.listen(port, () => log(`App is listening on port: ${port}`));
 
 export default app;

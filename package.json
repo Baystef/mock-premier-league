@@ -4,12 +4,14 @@
   "description": "API that serves the latest fixture scores of a Mock Premier League",
   "main": "server/index.js",
   "scripts": {
-    "start:dev": "set DEBUG=dev && cross-env NODE_ENV=development babel-watch ./server/index.js",
-    "start": "set DEBUG=dev && node build/index.js",
+    "start:dev": "set DEBUG=dev && cross-env NODE_ENV=development babel-watch ./server/start.js",
+    "start": "set DEBUG=dev && node build/start.js",
     "build": "babel server --out-dir build",
-    "seed": "set DEBUG=dev && babel-node ./server/src/schema/seed",
+    "seed": "babel-node ./server/src/schema/seed",
+    "unseed": "babel-node ./server/src/schema/unseed",
     "heroku:seed": "node ./build/src/schema/seed",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "heroku:unseed": "node ./build/src/schema/unseed",
+    "test": "cross-env NODE_ENV=test && jest --timeOut=10000 --forceExit --detectOpenHandles --maxWorkers=1"
   },
   "repository": {
     "type": "git",
@@ -28,18 +30,24 @@
   },
   "homepage": "https://github.com/Baystef/mock-premier-league#readme",
   "dependencies": {
-    "@babel/polyfill": "^7.4.4",
+    "@babel/runtime": "^7.6.0",
     "bcrypt": "^3.0.6",
+    "connect-redis": "^4.0.2",
     "cross-env": "^5.2.0",
     "debug": "^4.1.1",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
-    "@babel/runtime": "^7.6.0",
+    "express-session": "^1.16.2",
     "express-validator": "^6.1.1",
+    "ioredis": "^4.14.1",
+    "jest": "^24.9.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
+    "mongodb": "^3.3.2",
+    "mongodb-memory-server": "^5.2.5",
     "mongoose": "^5.6.9",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "rate-limiter-flexible": "^1.1.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
@@ -50,6 +58,7 @@
     "babel-watch": "^7.0.0",
     "eslint": "^6.1.0",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2"
+    "eslint-plugin-import": "^2.18.2",
+    "supertest": "^4.0.2"
   }
 }

@@ -47,7 +47,7 @@ const goneResponse = (res, error, status = 'error') => res.status(410).json({
   error: error || 'Gone',
 });
 
-const internalErrREesponse = (res, error, status = 'error') => res.status(500).json({
+const internalErrResponse = (res, error, status = 'error') => res.status(500).json({
   status,
   error: error || 'Internal Server Error',
 });
@@ -55,5 +55,5 @@ const internalErrREesponse = (res, error, status = 'error') => res.status(500).j
 export {
   badRequestResponse, unauthorizedResponse, forbiddenResponse,
   nullResponse, conflictResponse, goneResponse, successResponse,
-  internalErrREesponse,
+  internalErrResponse,
 };

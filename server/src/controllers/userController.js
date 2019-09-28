@@ -1,8 +1,7 @@
-import '@babel/polyfill';
 import { User } from '../models';
 import { Auth } from '../utils';
 import {
-  conflictResponse, internalErrREesponse, successResponse, unauthorizedResponse, nullResponse,
+  conflictResponse, internalErrResponse, successResponse, unauthorizedResponse, nullResponse,
 } from '../utils/response';
 
 /**
@@ -17,7 +16,6 @@ class userController {
   */
   static async signUp(req, res) {
     const { email, password, firstName, lastName } = req.body;
-
     let user = new User({
       firstName,
       lastName,
@@ -36,11 +34,14 @@ class userController {
       const {
         isAdmin, _id, createdAt,
       } = user;
-      return successResponse(res, 201, {
+      const data = {
         token, isAdmin, _id, firstName, lastName, email, createdAt,
-      });
+      };
+      req.session.key = data;
+      res.setHeader('Authorization', `Bearer ${token}`);
+      return successResponse(res, 201, data);
     } catch (error) {
-      return internalErrREesponse(res);
+      return internalErrResponse(res);
     }
   }
 
@@ -63,12 +64,14 @@ class userController {
         const msg = 'Invalid Credentials';
         return unauthorizedResponse(res, msg);
       }
-      const { _id, isAdmin } = data;
-      const output = { _id, isAdmin };
-      const token = Auth.generateToken({ ...output });
-      return successResponse(res, 200, { token, ...output });
+      const { _id, isAdmin, firstName, lastName } = data;
+      const token = Auth.generateToken({ _id, isAdmin });
+      const output = { token, _id, isAdmin, firstName, lastName, email };
+      req.session.key = output;
+      res.setHeader('Authorization', `Bearer ${token}`);
+      return successResponse(res, 200, output);
     } catch (error) {
-      return internalErrREesponse(res);
+      return internalErrResponse(res);
     }
   }
 
@@ -87,7 +90,7 @@ class userController {
       }
       return successResponse(res, 200, users);
     } catch (error) {
-      return internalErrREesponse(res);
+      return internalErrResponse(res);
     }
   }
 
@@ -108,8 +111,20 @@ class userController {
       }
       return successResponse(res, 200, data);
     } catch (error) {
-      return internalErrREesponse(res);
+      return internalErrResponse(res);
     }
+  }
+
+  /**
+ * @description Logout a user
+ * @param {object} req request object
+ * @param {object} res response object
+ * @returns {object}  JSON response
+ */
+  static async logout(req, res) {
+    req.session.destroy();
+    const message = 'You have logged out successfully';
+    return successResponse(res, 200, { message });
   }
 }
 

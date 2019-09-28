@@ -36,6 +36,12 @@ fixtureSchema.pre('save', async function (next) {
   next();
 });
 
+fixtureSchema.index({
+  homeTeam: 'text',
+  awayTeam: 'text',
+  fixtureLink: 'text'
+});
+
 const Fixtures = mongoose.model('Fixtures', fixtureSchema);
 
 export default Fixtures;
