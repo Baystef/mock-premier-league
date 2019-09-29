@@ -47,7 +47,8 @@
     "mongodb-memory-server": "^5.2.5",
     "mongoose": "^5.6.9",
     "morgan": "^1.9.1",
-    "rate-limiter-flexible": "^1.1.2"
+    "rate-limiter-flexible": "^1.1.2",
+    "redis": "^2.8.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
