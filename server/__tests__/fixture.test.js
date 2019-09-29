@@ -94,8 +94,9 @@ describe('Fixture user & admin routes', () => {
   it('should get a specified fixture and return 200', async () => {
     const res = await agent.get(`/api/v1/fixtures?fixtureLink=${fLink}`).set('Authorization', `Bearer ${userToken}`);
     expect(res.statusCode).toEqual(200);
-    expect(res.body.data.homeTeam).toBe('Newcastle');
-    expect(res.body.data.awayTeam).toBe('Bournemouth');
+    expect(res.body.data.homeTeam).toBeTruthy();
+    expect(res.body.data.awayTeam).toBeTruthy();
+    expect(res.body.data.fixtureLink).toEqual(fLink);
   });
 
   it('should get fixtures with query status(pending or completed) and return 200', async () => {
