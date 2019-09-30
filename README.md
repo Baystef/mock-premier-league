@@ -1,4 +1,4 @@
-# mock-premier-league
+# Mock Premier League
  API that serves the latest scores of fixtures of matches in a “Mock Premier League”
 
 
@@ -34,7 +34,7 @@ $ npm run seed
 $ npm run start:dev
 ```
 ```bash
-If redis has been successfully installed and configured
+If redis has been successfully installed and configured (For windows users)
 
 $ start redis-server.exe redis.windows.conf
 $ start redis-cli.exe 
@@ -123,7 +123,19 @@ API BASE URL https://mock-pl.herokuapp.com/.
 | POST   | /search?_term_ | Robust search with home or away team as _term_ query |         |
 
 
+## Admin only endpoints 
 
+| method | route                      | description               | 
+| ------ | -------------------------- | ------------------------- |
+| GET    | /users                     | Get all users             |
+| PATCH  | /users/admin/:email        | Create Admin              |
+| POST   | /teams                     | Add a team                |
+| PUT    | /teams/:teamName           | Update a team             |
+| DELETE | /teams/:teamName           | Delete a team             |
+| POST   | /fixtures                  | Create a fixture          |
+| PUT    | /fixtures/:fixtureLink     | Update a fixture          |
+| PATCH  | /fixtures/play/:fixtureLink| Complete a fixture        |
+| DELETE | /fixtures?_fixtureLink_    | Delete a fixture          |
 
 
 # API Docs
