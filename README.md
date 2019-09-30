@@ -1,5 +1,7 @@
 # Mock Premier League
- API that serves the latest scores of fixtures of matches in a “Mock Premier League”
+[![Build Status](https://travis-ci.org/Baystef/mock-premier-league.svg?branch=develop)](https://travis-ci.org/Baystef/mock-premier-league)
+
+ API that serves the latest score of fixtures of matches in a “Mock Premier League”
 
 
 ## Technologies
