@@ -36,7 +36,7 @@ $ npm run start:dev
 ```bash
 If redis has been successfully installed and configured
 
-$ start redis-server.exe redis.windows.conf
+$ start redis-server.exe redis.windows.conf //for windows users
 $ start redis-cli.exe 
 
 On the redis-cli, send a 
