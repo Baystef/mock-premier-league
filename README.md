@@ -42,7 +42,7 @@ $ start redis-cli.exe
 On the redis-cli, send a 
 $ ping
 you should get a 
-$ pong 
+- PONG 
 response this means redis port is live and ready.
 
 To see changes in real time, send
