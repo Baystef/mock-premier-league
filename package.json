@@ -31,7 +31,7 @@
   "homepage": "https://github.com/Baystef/mock-premier-league#readme",
   "dependencies": {
     "@babel/runtime": "^7.6.0",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "connect-redis": "^4.0.2",
     "cross-env": "^5.2.0",
     "debug": "^4.1.1",
